@@ -1,3 +1,10 @@
+# My ignores
+0_Certificate
+.vscode
+*resources*
+
+##########################################################################################
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
