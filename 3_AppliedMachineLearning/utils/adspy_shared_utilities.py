@@ -169,11 +169,8 @@ def plot_class_regions_for_classifier(clf, X, y, X_test=None, y_test=None, title
     plt.show()
     
 def plot_fruit_knn(X, y, n_neighbors, weights):
-    # X_mat = X[['height', 'width']].as_matrix()
-    # y_mat = y.as_matrix()
-
-    X_mat = numpy.asmatrix(X[['height', 'width']])
-    y_mat = numpy.asmatrix(y)
+    X_mat = X[['height', 'width']].as_matrix()
+    y_mat = y.as_matrix()
 
     # Create color maps
     cmap_light = ListedColormap(['#FFAAAA', '#AAFFAA', '#AAAAFF','#AFAFAF'])
