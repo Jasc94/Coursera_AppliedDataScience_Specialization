@@ -12,16 +12,16 @@ import graphviz
 from sklearn.tree import export_graphviz
 import matplotlib.patches as mpatches
 
-def load_crime_dataset():
+def load_crime_dataset(path):
     # Communities and Crime dataset for regression
     # https://archive.ics.uci.edu/ml/datasets/Communities+and+Crime+Unnormalized
 
-    crime = pd.read_table('readonly/CommViolPredUnnormalizedData.txt', sep=',', na_values='?')
+    crime = pd.read_table(path, sep=',', na_values='?')
     # remove features with poor coverage or lower relevance, and keep ViolentCrimesPerPop target column
     columns_to_keep = [5, 6] + list(range(11,26)) + list(range(32, 103)) + [145]  
-    crime = crime.ix[:,columns_to_keep].dropna()
+    crime = crime.iloc[:,columns_to_keep].dropna()
 
-    X_crime = crime.ix[:,range(0,88)]
+    X_crime = crime.iloc[:,range(0,88)]
     y_crime = crime['ViolentCrimesPerPop']
 
     return (X_crime, y_crime)
@@ -221,7 +221,7 @@ def plot_two_class_knn(X, y, n_neighbors, weights, X_test, y_test):
     cmap_light = ListedColormap(['#FFFFAA', '#AAFFAA', '#AAAAFF','#EFEFEF'])
     cmap_bold  = ListedColormap(['#FFFF00', '#00FF00', '#0000FF','#000000'])
 
-    clf = neighbors.KNeighborsClassifier(n_neighbors, weights=weights)
+    clf = neighbors.KNeighborsClassifier(n_neighbors, weights=weights, n_jobs = -1)
     clf.fit(X_mat, y_mat)
 
     # Plot the decision boundary by assigning a color in the color map
