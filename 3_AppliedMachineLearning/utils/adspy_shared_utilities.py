@@ -89,6 +89,10 @@ def plot_class_regions_for_classifier_subplot(clf, X, y, X_test, y_test, title, 
     y_plot_adjust = 0.1
     plot_symbol_size = 50
 
+    # To make sure that we deal with arrays
+    X = numpy.array(X)
+    y = numpy.array(y)
+
     x_min = X[:, 0].min()
     x_max = X[:, 0].max()
     y_min = X[:, 1].min()
@@ -106,6 +110,9 @@ def plot_class_regions_for_classifier_subplot(clf, X, y, X_test, y_test, title, 
     subplot.set_ylim(y_min - y_plot_adjust, y_max + y_plot_adjust)
 
     if (X_test is not None):
+        X_test = numpy.array(X_test)
+        y_test = numpy.array(y_test)
+        
         subplot.scatter(X_test[:, 0], X_test[:, 1], c=y_test, cmap=cmap_bold, s=plot_symbol_size, marker='^', edgecolor = 'black')
         train_score = clf.score(X, y)
         test_score  = clf.score(X_test, y_test)
