@@ -12,6 +12,8 @@ from mpl_toolkits.mplot3d import Axes3D         # 3D plots
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 
+sns.set_theme()
+
 
 ############################# Module 1 #############################
 #### Decision boundaries
@@ -62,4 +64,26 @@ def plot_fruit_knn(X, y, n_neighbors, h = .05):
     plt.xlabel(X.iloc[:, 0].name)
     plt.ylabel(X.iloc[:, 1].name)
     
+    plt.show()
+
+############################# Module 2 #############################
+############################# Assignment #############################
+def part1_scatter(X_train, X_test, y_train, y_test, figsize = (10, 10)):
+    # Matplotlib figure
+    fig = plt.figure(figsize = figsize)
+    # Plot
+    plt.scatter(X_train, y_train, label='training data')
+    plt.scatter(X_test, y_test, label='test data')
+    plt.legend(loc=4)
+
+    return fig
+
+def plot_one(degree_predictions, X_train, X_test, y_train, y_test):
+    plt.figure(figsize=(10,5))
+    plt.plot(X_train, y_train, 'o', label='training data', markersize=10)
+    plt.plot(X_test, y_test, 'o', label='test data', markersize=10)
+    for i,degree in enumerate([1,3,6,9]):
+        plt.plot(np.linspace(0,10,100), degree_predictions[i], alpha=0.8, lw=2, label='degree={}'.format(degree))
+    plt.ylim(-1,2.5)
+    plt.legend(loc=4)
     plt.show()

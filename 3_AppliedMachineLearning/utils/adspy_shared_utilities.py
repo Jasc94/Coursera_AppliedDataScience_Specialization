@@ -12,6 +12,9 @@ import graphviz
 from sklearn.tree import export_graphviz
 import matplotlib.patches as mpatches
 
+import os
+os.environ["PATH"] += os.pathsep + 'D:/Program Files (x86)/Graphviz2.38/bin/'
+
 def load_crime_dataset(path):
     # Communities and Crime dataset for regression
     # https://archive.ics.uci.edu/ml/datasets/Communities+and+Crime+Unnormalized
@@ -268,3 +271,38 @@ def plot_two_class_knn(X, y, n_neighbors, weights, X_test, y_test):
     plt.title(title)
 
     plt.show()
+
+
+#############################
+def plot_mushroom_boundary(X, y, fitted_model):
+
+    plt.figure(figsize=(9.8,5), dpi=100)
+    
+    for i, plot_type in enumerate(['Decision Boundary', 'Decision Probabilities']):
+        plt.subplot(1,2,i+1)
+
+        mesh_step_size = 0.01  # step size in the mesh
+        x_min, x_max = X[:, 0].min() - .1, X[:, 0].max() + .1
+        y_min, y_max = X[:, 1].min() - .1, X[:, 1].max() + .1
+        xx, yy = numpy.meshgrid(numpy.arange(x_min, x_max, mesh_step_size), numpy.arange(y_min, y_max, mesh_step_size))
+        if i == 0:
+            Z = fitted_model.predict(numpy.c_[xx.ravel(), yy.ravel()])
+        else:
+            try:
+                Z = fitted_model.predict_proba(numpy.c_[xx.ravel(), yy.ravel()])[:,1]
+            except:
+                plt.text(0.4, 0.5, 'Probabilities Unavailable', horizontalalignment='center',
+                     verticalalignment='center', transform = plt.gca().transAxes, fontsize=12)
+                plt.axis('off')
+                break
+        Z = Z.reshape(xx.shape)
+        plt.scatter(X[y.values==0,0], X[y.values==0,1], alpha=0.4, label='Edible', s=5)
+        plt.scatter(X[y.values==1,0], X[y.values==1,1], alpha=0.4, label='Posionous', s=5)
+        plt.imshow(Z, interpolation='nearest', cmap='RdYlBu_r', alpha=0.15, 
+                   extent=(x_min, x_max, y_min, y_max), origin='lower')
+        plt.title(plot_type + '\n' + 
+                  str(fitted_model).split('(')[0]+ ' Test Accuracy: ' + str(numpy.round(fitted_model.score(X, y), 5)))
+        plt.gca().set_aspect('equal');
+        
+    plt.tight_layout()
+    plt.subplots_adjust(top=0.9, bottom=0.08, wspace=0.02)
