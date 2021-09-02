@@ -53,7 +53,7 @@ def plot_feature_importances(clf, feature_names):
     plt.ylabel("Feature name")
     plt.yticks(numpy.arange(c_features), feature_names)
 
-def plot_labelled_scatter(X, y, class_labels):
+def plot_labelled_scatter(X, y, class_labels, title = ""):
     num_labels = len(class_labels)
 
     x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
@@ -74,6 +74,10 @@ def plot_labelled_scatter(X, y, class_labels):
     for c in range(0, num_labels):
         h.append(mpatches.Patch(color=color_array[c], label=class_labels[c]))
     plt.legend(handles=h)
+
+    plt.xlabel('First principal component')
+    plt.ylabel('Second principal component')
+    plt.title(title)
 
     plt.show()
 
